@@ -1,0 +1,2 @@
+socomo-maven-plugin
+===================
