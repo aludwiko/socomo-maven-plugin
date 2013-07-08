@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<local-project language="java" version="3.3.717" flavor="j2se">
+   <property name="hide-externals" value="true" />
+   <property name="detail-mode" value="true" />
+   <classpath>
+      <classpathentry kind="lib" path="P:\Workspace\socomo-maven-plugin\target\classes" />
+   </classpath>
+   <sourcepaths>
+      <pathentry type="file" path="P:\Workspace\socomo-maven-plugin\src\main\java" />
+   </sourcepaths>
+</local-project>
+

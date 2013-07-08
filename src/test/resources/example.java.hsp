@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Copyright 2010 Wojciech Gdela
+  
+  Licensed under the Apache License, Version 2.0 (the "License"); you may not
+  use this file except in compliance with the License. You may obtain a copy
+  of the License at
+  
+       http://www.apache.org/licenses/LICENSE-2.0
+       
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License. 
+ -->
+<local-project language="java" version="3.3.717" flavor="j2se">
+   <property name="hide-externals" value="true" />
+   <property name="detail-mode" value="true" />
+   <classpath>
+      <classpathentry kind="lib" path="P:\Workspace\classycle-maven-plugin\target\classes" />
+   </classpath>
+   <grid-set sep="." version="3.3.717">
+      <grid name="Primitive" enforce="true" strict="false">
+         <row>
+            <cell name="an only cell" pattern="example.*" vexpanded="true" visibility="public" />
+         </row>
+         <description>&lt;empty&gt;</description>
+      </grid>
+      <grid name="Simple" enforce="true" strict="false">
+         <row>
+            <cell name="top left" pattern="example.top.left.*" vexpanded="true" visibility="public" />
+            <cell name="top right" pattern="example.top.right.*" vexpanded="true" visibility="public" />
+         </row>
+         <row>
+            <cell name="bottom" pattern="example.bottom.*" vexpanded="true" visibility="public" />
+         </row>
+      </grid>
+      <grid name="Complex" enforce="true" strict="false" excludes="unwanted.*">
+         <row>
+            <cell name="ALFA" vexpanded="true" visibility="public">
+               <grid>
+                  <row>
+                     <cell name="top left" vexpanded="true" visibility="public" />
+                     <cell name="top right" vexpanded="true" visibility="public" />
+                  </row>
+                  <row>
+                     <cell name="middle" vexpanded="true" visibility="private" />
+                  </row>
+                  <row>
+                     <cell name="bottom" vexpanded="true" visibility="public" />
+                  </row>
+               </grid>
+            </cell>
+            <cell name="BETA" vexpanded="true" visibility="public" />
+         </row>
+         <override source="$GP0.0$GP0.0" target="$GP0.0$GP2.0" allowed="false" source_disp="top left" target_disp="bottom" synthetic="false" num-violations="0" num-violations-weighted="0" />
+         <override source="$GP0.0$GP2.0" target="$GP0.0$GP0.1" allowed="true" source_disp="bottom" target_disp="top right" synthetic="false" num-violations="0" num-violations-weighted="0" />
+         <override source="$GP0.1" target="$GP0.0" allowed="true" source_disp="BETA" target_disp="ALFA" synthetic="false" num-violations="0" num-violations-weighted="0" />
+         <description>&lt;empty&gt;</description>
+      </grid>
+   </grid-set>
+</local-project>
+

@@ -1,0 +1,13 @@
+1. Download and unpack classycle (alternatively use attached classycle jar):
+
+http://classycle.sourceforge.net/
+
+2. Install classycle jar into local repository:
+
+mvn install:install-file -DgroupId=classycle -DartifactId=classycle -Dversion=1.3.3 -Dpackaging=jar -Dfile=classycle.jar -DgeneratePom=true
+
+3. Install socomo jar into local repository:
+
+mvn install:install-file -DpomFile=pom.xml -Dfile=socomo.jar
+
+5. Go to docs/index.html and read usage instructions.

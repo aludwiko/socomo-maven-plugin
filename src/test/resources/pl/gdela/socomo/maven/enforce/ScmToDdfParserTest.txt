@@ -1,0 +1,45 @@
+>>>
+[all] = pl.gdela.*
+check [all] independentOf java.lang.Object
+---
+[all] = pl.gdela.*
+check [all] independentOf java.lang.Object
+<<<
+
+>>>
+check acyclicCompositionOf pl.gdela.raz
+check acyclicCompositionOf pl.gdela.dwa
+---
+# check acyclicCompositionOf pl.gdela.raz
+# check acyclicCompositionOf pl.gdela.dwa
+<<<
+
+>>>
+check deny pl.gdela.*
+check allow pl.gdela.raz.*
+check allow pl.gdela.dwa.*
+---
+# check deny pl.gdela.*
+# check allow pl.gdela.raz.*
+# check allow pl.gdela.dwa.*
+<<<
+
+>>>
+check diagram Foo Bla from structure.java.hsp
+---
+structure.java.hsp:Foo
+structure.java.hsp:Bla
+<<<
+
+>>>
+check all diagrams from structure.java.hsp
+---
+structure.java.hsp:all
+<<<
+
+>>>
+check all diagrams except Foo Bla from structure.java.hsp
+---
+structure.java.hsp:not Foo
+structure.java.hsp:not Bla
+<<<

@@ -1,0 +1,102 @@
+~~ Copyright 2010 Wojciech Gdela
+~~  
+~~ Licensed under the Apache License, Version 2.0 (the "License"); you may not
+~~ use this file except in compliance with the License. You may obtain a copy
+~~ of the License at
+~~ 
+~~      http://www.apache.org/licenses/LICENSE-2.0
+~~       
+~~ Unless required by applicable law or agreed to in writing, software
+~~ distributed under the License is distributed on an "AS IS" BASIS,
+~~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+~~ See the License for the specific language governing permissions and
+~~ limitations under the License.
+
+ ------
+ Usage
+ ------
+ 
+Usage
+
+ The following examples describe the basic usage of the SoCoMo plugin.
+
+* Enforce Dependency Rules As Part of the Build
+
+  To enforce dependency rules as part of the Build, add the
+  SoCoMo plugin in the <<<\<build\>>>> section of your <<<pom.xml>>>:
+
++-----+
+<project>
+  ...
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>pl.gdela.socomo</groupId>
+        <artifactId>socomo-maven-plugin</artifactId>
+        <executions>
+          <execution>
+            <goals>
+              <goal>enforce</goal>
+            </goals>
+            <configuration>
+              <definition>check pl.gdela.socomo.* independentOf dont.want.this.*</definition>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+  ...
+</project>
++-----+
+
+  You can write rules in <<<pom.xml>>>, as above, or write them in separate file.
+  See {{{enforce-mojo.html}enforce goal reference}} for details.
+  
+* Rules language
+
+  Rules language is based on {{{http://classycle.sourceforge.net/ddf.html}Classycle syntax}}. You
+  can write any classycle rule and a few more. For example to check whether a set of classes
+  is independent of other set of classes:
+  
++-----+
+[alfa] = com.example.one.* excluding com.example.one.MyTest1 com.example.one.MyTest2
+[beta] = com.example.two.* com.example.four.*
+check [alfa] directlyIndependentOf [beta]
++-----+
+
+  To check whether a package has acyclic composition, i.e. dependencies between it's subpackages
+  does not form cyclic dependency:
+  
++-----+
+check acyclicCompositionOf pl.gdela.socomo
++-----+
+
+  To deny some packages but allow others:
+  
++-----+
+check deny  *
+check allow com.example.mytool.layerA.*
+check allow com.example.mytool.layerB.*
+check deny  com.example.mytool.layerB.*.invalid.*
+check deny  *.mispelled.*
++-----+ 
+
+  To check if source code conforms to architecture diagrams defined in
+  {{{http://www.headwaysoftware.com/products/structure101/define-architecture.php}Structure101}}:
+  
++-----+
+check all diagrams from mystructure.java.hsp
++-----+
+
+  To check only selected diagrams:
+  
++-----+
+check diagram "Layers" "Components" from mystructure.java.hsp
++-----+
+
+  To check all but selected diagrams:
+  
++-----+
+check all diagrams except "Draft" from mystructure.java.hsp
++-----+
