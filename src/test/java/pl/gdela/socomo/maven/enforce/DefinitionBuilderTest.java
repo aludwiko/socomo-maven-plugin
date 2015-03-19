@@ -16,19 +16,29 @@
 package pl.gdela.socomo.maven.enforce;
 
 import java.util.HashSet;
+
+import junit.framework.Assert;
+import org.assertj.core.api.Assertions;
+import org.junit.Test;
 import pl.gdela.socomo.maven.enforce.DefinitionBuilder;
 
 import junit.framework.TestCase;
 
-public class DefinitionBuilderTest extends TestCase {
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertFalse;
+import static junit.framework.Assert.assertTrue;
+
+public class DefinitionBuilderTest{
 	
 	private final DefinitionBuilder builder = new DefinitionBuilder("");
 
+	@Test
     public void testCellName() {
         assertEquals("alfa", builder.normalizeName(new Cell("alfa")));
         assertEquals("bla_foo", builder.normalizeName(new Cell("bla foo")));
     }
-    
+
+	@Test
     public void testConvertToSetDefinition() {
         assertEquals("[alfa] = alfa.*", builder.convert(new Cell("alfa", "alfa.*")).toString());
         assertEquals("[foo_bla] = foobla", builder.convert(new Cell("foo bla", "foobla")).toString());
@@ -39,13 +49,27 @@ public class DefinitionBuilderTest extends TestCase {
         assertEquals("[bf] = bla.* foo.* excluding foo.*.*", builder.convert(new Cell("bf", "bla.*, foo.?")).toString());
         assertEquals("[bf] = bla.* foo.* excluding bla.*.* foo.*.*", builder.convert(new Cell("bf", "bla.?, foo.?")).toString());
     }
-    
+
+	@Test
+	public void shouldIgnoreEmptyPattern() {
+		// given
+		String emptyPattern = "";
+
+		// when
+		String result = builder.convert(new Cell("nopattern", emptyPattern)).toString();
+
+		// then
+		Assertions.assertThat(result).isEqualTo("[nopattern] = _empty_");
+	}
+
+	@Test
     public void testConvertWithExcluding() {
         builder.setExcludes("foo.*, bla.*");
         assertEquals("[alfa] = alfa.* excluding bla.* foo.*", builder.convert(new Cell("alfa", "alfa.*")).toString());
         builder.setExcludes(null);
     }
 
+	@Test
     public void testBuild() {
         Cell alfa = new Cell("alfa", "example.alfa.*");
         Cell beta = new Cell("beta", "example.beta.*");
@@ -61,7 +85,8 @@ public class DefinitionBuilderTest extends TestCase {
         expected += "check [gama] directlyIndependentOf [beta]\n";
         assertEquals(expected, new DefinitionBuilder("").build(disallowedLinks));
     }
-    
+
+	@Test
     public void testContains() {
         assertFalse(DefinitionBuilder.contains("foo.*", "foo.*"));
         
@@ -76,7 +101,8 @@ public class DefinitionBuilderTest extends TestCase {
         assertTrue(DefinitionBuilder.contains("pl.gdela.klient.*", "pl.gdela.*.logika.*"));
         assertTrue(DefinitionBuilder.contains("pl.gdela.*.logika.*", "pl.*.klient.*"));
     }
-    
+
+	@Test
     public void testBuildWithOverlappingPatterns() {
         Cell building = new Cell("building", "building.*");
         Cell roof = new Cell("roof", "building.roof.?");

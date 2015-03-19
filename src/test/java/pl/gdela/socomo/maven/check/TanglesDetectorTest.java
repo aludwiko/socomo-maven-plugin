@@ -15,23 +15,22 @@
  */
 package pl.gdela.socomo.maven.check;
 
-import static org.junit.Assert.*;
-import static pl.gdela.socomo.maven.check.SyntacticSugar.*;
-import static org.hamcrest.CoreMatchers.*;
-import static org.junit.matchers.JUnitMatchers.*;
+import org.apache.commons.lang.StringUtils;
+import org.junit.Test;
 
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
 
-import org.apache.commons.lang.StringUtils;
-import org.junit.Test;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThat;
+import static org.junit.Assert.fail;
+import static org.junit.matchers.JUnitMatchers.hasItem;
+import static pl.gdela.socomo.maven.check.SyntacticSugar.graph;
+import static pl.gdela.socomo.maven.check.SyntacticSugar.path;
+import static pl.gdela.socomo.maven.check.SyntacticSugar.tangle;
+import static pl.gdela.socomo.maven.check.SyntacticSugar.vertexSet;
 
-import pl.gdela.socomo.maven.check.DependencyGraph;
-import pl.gdela.socomo.maven.check.Path;
-import pl.gdela.socomo.maven.check.Tangle;
-import pl.gdela.socomo.maven.check.TanglesDetector;
 
 public class TanglesDetectorTest {
     

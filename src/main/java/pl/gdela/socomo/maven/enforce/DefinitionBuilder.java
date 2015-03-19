@@ -22,6 +22,8 @@ import java.util.regex.Pattern;
 
 import org.apache.commons.lang.StringUtils;
 
+import static org.apache.commons.lang.StringUtils.EMPTY;
+
 public class DefinitionBuilder {
 	
 	private static int lastInstanceNr = 0;
@@ -162,6 +164,11 @@ public class DefinitionBuilder {
     }
 	
     private static void addPatternToSetDefinition(String pattern, SetDefinition set) {
+
+		if (EMPTY.equals(pattern)) {
+			return;
+		}
+
         if (pattern.endsWith("?")) {
             String tmp = pattern.replace('?', '*');
             set.including.add(tmp);
