@@ -20,11 +20,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Iterator;
-import java.util.List;
+import java.util.LinkedHashSet;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -142,7 +140,7 @@ public class ScmToDdfParser {
     }
 
     static Collection<String> parseNames(String namesExpression) {
-        HashSet<String> names = new HashSet<String>();
+		Set<String> names = new LinkedHashSet<String>();
         StringBuilder buffer = new StringBuilder();
         boolean inQuotes = false;
         for (int i = 0; i < namesExpression.length(); i++) {
