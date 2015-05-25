@@ -17,19 +17,17 @@ package pl.gdela.socomo.maven.check;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.Iterator;
-import java.util.List;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.project.MavenProject;
-import org.jgrapht.graph.DefaultDirectedGraph;
-import org.jgrapht.graph.DefaultEdge;
 import org.objectweb.asm.ClassReader;
+import pl.gdela.socomo.maven.check.visitor.DependencyClassVisitor;
+import pl.gdela.socomo.maven.check.visitor.VisitorDataCollector;
 
 /**
  * Checks source code modularity.
@@ -54,21 +52,20 @@ public class CheckMojo extends AbstractMojo {
     protected MavenProject mavenProject;
 
     public void execute() throws MojoExecutionException {
-    	DependencyVisitor v = new DependencyVisitor();
-    	
+		VisitorDataCollector visitorDataCollector = new VisitorDataCollector();
     	Iterator<File> it = FileUtils.iterateFiles(classesDirectory, new String[] { "class" }, true);
     	while (it.hasNext()) {
     		try {
-				new ClassReader(new FileInputStream(it.next())).accept(v, 0);
+				new ClassReader(new FileInputStream(it.next())).accept(new DependencyClassVisitor(visitorDataCollector), 0);
 			} catch (IOException e) {
 				throw new MojoExecutionException("could not read file", e);
 			}
     	}
     	getLog().info("pakiet to " + rootPackage + ", katalog to " + classesDirectory);
     	try {
-			DependencyTracker.drawDiagram(v);
-			// TODO: przekazywaæ rootpackage do filtrowania
-			DependencyGraph g = JGraphTDemo.visitorToGraph(v);
+			DependencyTracker.drawDiagram(visitorDataCollector);
+			// TODO: przekazywaï¿½ rootpackage do filtrowania
+			DependencyGraph g = JGraphTDemo.visitorToGraph(visitorDataCollector);
 			Collection<Tangle> tangles = new TanglesDetector(g).detect();
 			if (!tangles.isEmpty()) {
 			    getLog().warn("your code is tangled, please fix those!");

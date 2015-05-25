@@ -11,7 +11,6 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.maven.plugin.logging.Log;
 
 import pl.gdela.socomo.maven.check.DependencyGraph;
-import pl.gdela.socomo.maven.check.DependencyVisitor;
 import pl.gdela.socomo.maven.check.Tangle;
 import pl.gdela.socomo.maven.check.TanglesDetector;
 
@@ -20,7 +19,7 @@ public class AcyclityChecker {
 	private Log log;
 	
 	/**
-	 * Raw dependencies list as analyzed by {@link DependencyVisitor}.
+	 * Raw dependencies list as analyzed by {@link pl.gdela.socomo.maven.check.visitor.DependencyClassVisitor}.
 	 */
 	private Map<String, Map<String, Integer>> dependencies;
 	

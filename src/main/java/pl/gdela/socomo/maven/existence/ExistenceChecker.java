@@ -8,7 +8,6 @@ import java.util.TreeSet;
 
 import org.apache.maven.plugin.logging.Log;
 
-import pl.gdela.socomo.maven.check.DependencyVisitor;
 import pl.gdela.socomo.maven.existence.ExistenceDeclaration.Rule;
 
 public class ExistenceChecker {
@@ -16,7 +15,7 @@ public class ExistenceChecker {
 	private Log log;
 	
 	/**
-	 * Raw dependencies list as analyzed by {@link DependencyVisitor}.
+	 * Raw dependencies list as analyzed by {@link pl.gdela.socomo.maven.check.visitor.DependencyClassVisitor}.
 	 */
 	private Map<String, Map<String, Integer>> dependencies;
 	
@@ -53,7 +52,7 @@ public class ExistenceChecker {
 	    	denials.put(rule, new TreeSet<String>());
 	    }
 	    
-	    for (String className : dependencies.keySet()) { // FIXME: to wcale nie s¹ nazwy klas, tylko nazwy pakietów
+		for (String className : dependencies.keySet()) { // FIXME: to wcale nie sÄ… nazwy klas, tylko nazwy pakietÃ³w
 	    	ExistenceDeclaration.Rule rule = declaration.getDenyingRule(className);
 	    	if (rule != null) {
 	    		denials.get(rule).add(className);

@@ -25,6 +25,7 @@ import org.jgrapht.alg.CycleDetector;
 import org.jgrapht.traverse.TopologicalOrderIterator;
 import org.jgrapht.graph.DefaultDirectedGraph;
 import org.jgrapht.graph.DefaultEdge;
+import pl.gdela.socomo.maven.check.visitor.VisitorDataCollector;
 
 /**
  This class is a demonstration program for creating a depencency chart,
@@ -33,7 +34,7 @@ import org.jgrapht.graph.DefaultEdge;
  */
 public class JGraphTDemo {
 	
-    public static DependencyGraph visitorToGraph(DependencyVisitor v) {
+    public static DependencyGraph visitorToGraph(VisitorDataCollector v) {
     	DependencyGraph g = new DependencyGraph();
 		
 		for (String fromPackage : v.getDependencies().keySet()) {

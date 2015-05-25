@@ -9,6 +9,8 @@ import java.util.Map;
 import org.objectweb.asm.ClassReader;
 
 import pl.gdela.socomo.maven.LogRuntimeException;
+import pl.gdela.socomo.maven.check.visitor.DependencyClassVisitor;
+import pl.gdela.socomo.maven.check.visitor.VisitorDataCollector;
 
 /**
  * Utilities for constructing raw dependencies information. 
@@ -17,7 +19,7 @@ import pl.gdela.socomo.maven.LogRuntimeException;
  */
 public class Dependencies {
 	public static Map<String, Map<String, Integer>> analyze(Collection<File> classFiles) {
-		DependencyVisitor visitor = new DependencyVisitor();
+		VisitorDataCollector visitorDataCollector = new VisitorDataCollector();
 		for (File file : classFiles) {
     		try {
     		    if (file.getName().equals("package-info.class")) {
@@ -25,12 +27,12 @@ public class Dependencies {
     		        continue;
     		    }
 				FileInputStream input = new FileInputStream(file);
-                new ClassReader(input).accept(visitor, 0);
+                new ClassReader(input).accept(new DependencyClassVisitor(visitorDataCollector), 0);
                 input.close();
 			} catch (IOException e) {
 				throw new LogRuntimeException(e);
 			}
     	}
-		return visitor.getDependencies();
+		return visitorDataCollector.getDependencies();
 	}
 }

@@ -50,6 +50,8 @@ import java.util.zip.ZipFile;
 import javax.imageio.ImageIO;
 
 import org.objectweb.asm.ClassReader;
+import pl.gdela.socomo.maven.check.visitor.DependencyClassVisitor;
+import pl.gdela.socomo.maven.check.visitor.VisitorDataCollector;
 
 /**
  * DependencyTracker
@@ -71,8 +73,7 @@ public class DependencyTracker {
     private static final String LABEL_FONT = "Tahoma-9";
 
     public static void main(final String[] args) throws IOException {
-        DependencyVisitor v = new DependencyVisitor();
-
+		VisitorDataCollector visitorDataCollector = new VisitorDataCollector();
         ZipFile f = new ZipFile(args[0]);
 
         long l1 = System.currentTimeMillis();
@@ -81,19 +82,20 @@ public class DependencyTracker {
             ZipEntry e = en.nextElement();
             String name = e.getName();
             if (name.endsWith(".class")) {
-                new ClassReader(f.getInputStream(e)).accept(v, 0);
+
+				new ClassReader(f.getInputStream(e)).accept(new DependencyClassVisitor(visitorDataCollector), 0);
             }
         }
         long l2 = System.currentTimeMillis();
         System.err.println("time: " + (l2 - l1) / 1000f);
 
-        drawDiagram(v);
+        drawDiagram(visitorDataCollector);
     }
 
-	public static void drawDiagram(DependencyVisitor v) throws IOException {
-		Map<String, Map<String, Integer>> globals = v.getDependencies();
+	public static void drawDiagram(VisitorDataCollector visitorDataCollector) throws IOException {
+		Map<String, Map<String, Integer>> globals = visitorDataCollector.getDependencies();
         Set<String> jarPackages = globals.keySet();
-        Set<String> classPackages = v.getPackages();
+        Set<String> classPackages = visitorDataCollector.getPackages();
         int size = classPackages.size();
         System.err.println("size: " + size);
 

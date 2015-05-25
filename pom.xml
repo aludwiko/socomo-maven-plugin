@@ -20,7 +20,7 @@
     <groupId>pl.gdela.socomo</groupId>
     <artifactId>socomo-maven-plugin</artifactId>
     <packaging>maven-plugin</packaging>
-    <version>1.9</version>
+    <version>1.10</version>
     <name>SoCoMo Maven Plugin</name>
     <dependencies>
         <dependency>
@@ -65,16 +65,11 @@
             <artifactId>commons-lang</artifactId>
             <version>2.4</version>
         </dependency>
-        <dependency>
-            <groupId>asm</groupId>
-            <artifactId>asm</artifactId>
-            <version>3.2</version>
-        </dependency>
-        <dependency>
-            <groupId>classycle</groupId>
-            <artifactId>classycle</artifactId>
-            <version>1.3.3</version>
-        </dependency>
+		<dependency>
+			<groupId>org.ow2.asm</groupId>
+			<artifactId>asm</artifactId>
+			<version>5.0.3</version>
+		</dependency>
         <dependency>
 			<groupId>org.jgrapht</groupId>
 			<artifactId>jgrapht-jdk1.5</artifactId>
@@ -101,14 +96,15 @@
 			<version>1.2.0</version>
 		</dependency>
 	</dependencies>
+
     <build>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <configuration>
-                    <source>1.5</source>
-                    <target>1.5</target>
+                    <source>1.6</source>
+                    <target>1.6</target>
                 </configuration>
             </plugin>
 			<plugin>
